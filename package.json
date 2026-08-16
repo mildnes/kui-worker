@@ -1,0 +1,23 @@
+{
+  "name": "kui-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:css && vite build",
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./static/tailwind.css --content './frontend/index.html,./frontend/src/**/*.{vue,js}' --minify",
+    "dev:ui": "vite",
+    "dev": "wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "test": "node --test tests/*.test.js && python3 -m unittest discover -s tests -p 'test_*.py'",
+    "check": "npm run build && npm test && node --check 'functions/api/[[path]].js' && python3 -m py_compile static/vps/*.py && bash -n static/vps/*.sh && wrangler deploy --dry-run"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.8",
+    "tailwindcss": "^3.4.17",
+    "vite": "^8.2.1",
+    "wrangler": "^4.120.1"
+  },
+  "dependencies": {
+    "vue": "^3.5.17"
+  }
+}
